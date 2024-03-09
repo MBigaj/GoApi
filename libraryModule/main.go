@@ -11,8 +11,11 @@ func main() {
 	var library lib.Library
 	library.Books = loadBooks()
 
+	var printLibrary lib.PrintLibrary
+	printLibrary.Library = &library
+
 	fmt.Printf("We have a total of %d books in our library!\n", library.GetRemainingBooksCount())
-	fmt.Print(library.ShowBooks())
+	fmt.Print(printLibrary.GetBookSelection())
 }
 
 func loadBooks() []lib.Book {
