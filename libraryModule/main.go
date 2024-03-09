@@ -8,14 +8,37 @@ import (
 func main() {
 	fmt.Println("Welcome to the library!")
 
-	var library lib.Library
-	library.Books = loadBooks()
+	library := lib.Library{Books: loadBooks()}
+	printLibrary := lib.PrintLibrary{Library: &library}
+	libraryHandler := lib.LibraryHandler{Library: &library}
+	user := lib.User{Id: 1, Name: "Nice", Age: 23}
 
-	var printLibrary lib.PrintLibrary
-	printLibrary.Library = &library
+	var output rune
 
-	fmt.Printf("We have a total of %d books in our library!\n", library.GetRemainingBooksCount())
-	fmt.Print(printLibrary.GetBookSelection())
+	for output != 9 {
+		fmt.Print(lib.GetMenu())
+		fmt.Scan(&output)
+
+		switch output {
+		case 1:
+			fmt.Println(printLibrary.GetBookSelection())
+			var selection uint16
+
+			fmt.Scan(&selection)
+
+			selectedBook := library.GetBookByIndex(selection - 1)
+
+			fmt.Println(printLibrary.GetRemainingBooksCount(selectedBook))
+
+			libraryHandler.HandleRental(&user, selectedBook)
+		case 2:
+			// TODO IMPLEMENT
+		case 3:
+			// TODO IMPLEMENT
+		case 4:
+			fmt.Println(printLibrary.GetAllOrders())
+		}
+	}
 }
 
 func loadBooks() []lib.Book {
@@ -27,10 +50,3 @@ func loadBooks() []lib.Book {
 		{Name: "The greatest book", Writer: "Guy", State: 10, TotalNumber: 15},
 	}
 }
-
-/*
-	The user can get books from the library
-	The user can register new books in the library
-	The user has his own account with books rented with dates on dates on when to give them back
-	The book's potential cost of losing or not giving back in time is determined by its State
-*/

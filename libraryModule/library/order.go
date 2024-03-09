@@ -3,8 +3,8 @@ package library
 import "time"
 
 type Order struct {
-	id           uint16
+	Id           uint16
 	UserId       uint16
-	Book         Book
+	Book         *Book
 	GiveBackDate time.Time
 }
