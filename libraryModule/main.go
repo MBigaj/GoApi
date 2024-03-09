@@ -9,16 +9,20 @@ func main() {
 	fmt.Println("Welcome to the library!")
 
 	var library lib.Library
+	library.Books = loadBooks()
 
-	library.Books = []lib.Book{
+	fmt.Printf("We have a total of %d books in our library!\n", library.GetRemainingBooksCount())
+	fmt.Print(library.ShowBooks())
+}
+
+func loadBooks() []lib.Book {
+	return []lib.Book{
 		{Name: "The newest book", Writer: "Nick", State: 7, TotalNumber: 10},
 		{Name: "The crazy book", Writer: "Big", State: 5, TotalNumber: 20},
 		{Name: "The not so good book", Writer: "Very", State: 3, TotalNumber: 37},
 		{Name: "The odd book", Writer: "Nice", State: 7, TotalNumber: 20},
 		{Name: "The greatest book", Writer: "Guy", State: 10, TotalNumber: 15},
 	}
-
-	fmt.Printf("We have a total of %d books in our library!", library.GetRemainingBooksCount())
 }
 
 /*
