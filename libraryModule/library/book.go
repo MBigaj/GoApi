@@ -10,5 +10,5 @@ type Book struct {
 }
 
 func (Book Book) String() string {
-	return fmt.Sprintf("Book: %s, Writer: %s, Amount: %d", Book.Name, Book.Writer, Book.TotalNumber)
+	return fmt.Sprintf("Book: %s, Writer: %s, State: %d", Book.Name, Book.Writer, Book.State)
 }

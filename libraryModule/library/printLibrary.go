@@ -31,24 +31,40 @@ func (PrintLibrary PrintLibrary) GetBookSelection() string {
 }
 
 func (PrintLibrary PrintLibrary) GetRemainingBooksCount(book ...*Book) string {
-	remainingCount := ""
-
 	if book == nil {
-		remainingCount = fmt.Sprintf("We have a total of %d books in our library!\n", PrintLibrary.Library.GetRemainingBooksCount())
+		return fmt.Sprintf("We have a total of %d books in our library!\n", PrintLibrary.Library.GetRemainingBooksCount())
 	} else {
-		remainingCount = fmt.Sprintf("%s - %d remaining for renting", *book[0], book[0].TotalNumber)
+		return fmt.Sprintf("%s - %d remaining for renting", *book[0], book[0].TotalNumber)
 	}
-
-	return remainingCount
 }
 
-func (PrintLibrary PrintLibrary) GetAllOrders() string {
+func (PrintLibrary PrintLibrary) GetAllOrders(user ...*User) string {
 	orderList := ""
 
-	for _, orders := range PrintLibrary.Library.Orders {
-		for user, order := range orders {
-			orderList += fmt.Sprintf("%s rented: %s, has time till %s \n", user.Name, order.Book.Name, order.GiveBackDate)
+	if len(user) <= 0 {
+		for _, orders := range PrintLibrary.Library.Orders {
+			for userFromOrder, order := range orders {
+				if !order.Completed {
+					orderList += fmt.Sprintf("%s rented: %s, has time till %s \n", userFromOrder.Name, order.Book.Name, order.GiveBackDate)
+				}
+			}
 		}
+
+		return orderList
+	}
+
+	for index, orders := range PrintLibrary.Library.Orders {
+		for userFromOrder, order := range orders {
+			if user[0] == userFromOrder {
+				if !order.Completed {
+					orderList += fmt.Sprintf("%d - %s rented: %s, has time till %s \n", index+1, userFromOrder.Name, order.Book.Name, order.GiveBackDate)
+				}
+			}
+		}
+	}
+
+	if orderList == "" {
+		return fmt.Sprintf("No orders available for user %s", user[0].Name)
 	}
 
 	return orderList

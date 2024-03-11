@@ -32,9 +32,15 @@ func main() {
 
 			libraryHandler.HandleRental(&user, selectedBook)
 		case 2:
-			// TODO IMPLEMENT
+			libraryHandler.HandleNewBook()
 		case 3:
-			// TODO IMPLEMENT
+			var selection uint16
+
+			fmt.Println(printLibrary.GetAllOrders(&user))
+
+			fmt.Scan(&selection)
+
+			libraryHandler.HandleBookReturn(&user, library.GetBookByIndex(selection-1))
 		case 4:
 			fmt.Println(printLibrary.GetAllOrders())
 		}
