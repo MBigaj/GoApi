@@ -22,13 +22,9 @@ func (LibraryHandler LibraryHandler) HandleRental(user *User, book *Book) {
 		return
 	}
 
-	newOrder := map[*User]*Order{
-		user: &order,
-	}
-
 	user.AddOrder(&order)
 
-	LibraryHandler.Library.Orders = append(LibraryHandler.Library.Orders, newOrder)
+	LibraryHandler.Library.Orders[user] = append(LibraryHandler.Library.Orders[user], &order)
 	book.TotalNumber -= 1
 }
 
@@ -61,12 +57,13 @@ func (LibraryHandler LibraryHandler) HandleNewBook() {
 }
 
 func (LibraryHandler LibraryHandler) HandleBookReturn(user *User, book *Book) {
-	for index, orders := range LibraryHandler.Library.Orders {
-		for userFromOrder, order := range orders {
-			if userFromOrder == user && order.Book == book {
-				LibraryHandler.Library.Orders[index][user].Completed = true
-				book.TotalNumber++
-			}
+	usersOrders := LibraryHandler.Library.Orders[user]
+
+	for _, order := range usersOrders {
+		if order.Book == book && !order.Completed {
+			order.Completed = true
+			book.TotalNumber++
+			break
 		}
 	}
 }

@@ -3,6 +3,7 @@ package library
 import "fmt"
 
 type Book struct {
+	Id          uint16
 	Name        string
 	Writer      string
 	State       uint8

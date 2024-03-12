@@ -23,8 +23,8 @@ func GetMenu() string {
 func (PrintLibrary PrintLibrary) GetBookSelection() string {
 	var bookString string
 
-	for index, book := range PrintLibrary.Library.Books {
-		bookString += fmt.Sprintf("%d - %s", index+1, book) + "\n"
+	for _, book := range PrintLibrary.Library.Books {
+		bookString += fmt.Sprintf("%d - %s", book.Id, book) + "\n"
 	}
 
 	return bookString
@@ -42,8 +42,8 @@ func (PrintLibrary PrintLibrary) GetAllOrders(user ...*User) string {
 	orderList := ""
 
 	if len(user) <= 0 {
-		for _, orders := range PrintLibrary.Library.Orders {
-			for userFromOrder, order := range orders {
+		for userFromOrder, orders := range PrintLibrary.Library.Orders {
+			for _, order := range orders {
 				if !order.Completed {
 					orderList += fmt.Sprintf("%s rented: %s, has time till %s \n", userFromOrder.Name, order.Book.Name, order.GiveBackDate)
 				}
@@ -53,12 +53,12 @@ func (PrintLibrary PrintLibrary) GetAllOrders(user ...*User) string {
 		return orderList
 	}
 
-	for index, orders := range PrintLibrary.Library.Orders {
-		for userFromOrder, order := range orders {
-			if user[0] == userFromOrder {
-				if !order.Completed {
-					orderList += fmt.Sprintf("%d - %s rented: %s, has time till %s \n", index+1, userFromOrder.Name, order.Book.Name, order.GiveBackDate)
-				}
+	for userFromOrder := range PrintLibrary.Library.Orders {
+		usersOrders := PrintLibrary.Library.Orders[user[0]]
+
+		for _, order := range usersOrders {
+			if !order.Completed {
+				orderList += fmt.Sprintf("%d - %s rented: %s, has time till %s \n", order.Id, userFromOrder.Name, order.Book.Name, order.GiveBackDate)
 			}
 		}
 	}
