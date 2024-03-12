@@ -7,6 +7,6 @@ type User struct {
 	UserOrders []*Order
 }
 
-func (User User) AddOrder(order *Order) {
+func (User *User) AddOrder(order *Order) {
 	User.UserOrders = append(User.UserOrders, order)
 }
