@@ -53,16 +53,16 @@ func (LibraryHandler LibraryHandler) HandleNewBook() {
 		TotalNumber: howMany,
 	}
 
-	LibraryHandler.Library.Books = append(LibraryHandler.Library.Books, book)
+	LibraryHandler.Library.Books = append(LibraryHandler.Library.Books, &book)
 }
 
-func (LibraryHandler LibraryHandler) HandleBookReturn(user *User, book *Book) {
+func (LibraryHandler LibraryHandler) HandleBookReturn(user *User, orderId uint16) {
 	usersOrders := LibraryHandler.Library.Orders[user]
 
 	for _, order := range usersOrders {
-		if order.Book == book && !order.Completed {
+		if order.Id == orderId && !order.Completed {
 			order.Completed = true
-			book.TotalNumber++
+			order.Book.TotalNumber++
 			break
 		}
 	}

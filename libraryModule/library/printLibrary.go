@@ -2,6 +2,7 @@ package library
 
 import (
 	"fmt"
+	"strconv"
 )
 
 type PrintLibrary struct {
@@ -32,7 +33,7 @@ func (PrintLibrary PrintLibrary) GetBookSelection() string {
 
 func (PrintLibrary PrintLibrary) GetRemainingBooksCount(book ...*Book) string {
 	if book == nil {
-		return fmt.Sprintf("We have a total of %d books in our library!\n", PrintLibrary.Library.GetRemainingBooksCount())
+		return fmt.Sprintf("We have a total of %d books in our library!\n", len(PrintLibrary.Library.Books))
 	} else {
 		return fmt.Sprintf("%s - %d remaining for renting", *book[0], book[0].TotalNumber)
 	}
@@ -58,7 +59,7 @@ func (PrintLibrary PrintLibrary) GetAllOrders(user ...*User) string {
 
 		for _, order := range usersOrders {
 			if !order.Completed {
-				orderList += fmt.Sprintf("%d - %s rented: %s, has time till %s \n", order.Id, userFromOrder.Name, order.Book.Name, order.GiveBackDate)
+				orderList += fmt.Sprintf("%s -> %d - %s rented: %s, has time till %s \n", strconv.FormatBool(order.Completed), order.Id, userFromOrder.Name, order.Book.Name, order.GiveBackDate)
 			}
 		}
 	}

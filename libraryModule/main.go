@@ -40,7 +40,7 @@ func main() {
 
 			fmt.Scan(&selection)
 
-			libraryHandler.HandleBookReturn(&user, library.GetBookById(selection))
+			libraryHandler.HandleBookReturn(&user, selection)
 		case 4:
 			fmt.Println(printLibrary.GetAllOrders())
 		}
